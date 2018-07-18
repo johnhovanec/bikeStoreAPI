@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bikestoreAPI.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace bikestoreAPI.Controllers
 {
+    [EnableCors("AllowAllOrigins")]
     [Produces("application/json")]
     [Route("api/Products")]
     public class ProductsController : Controller

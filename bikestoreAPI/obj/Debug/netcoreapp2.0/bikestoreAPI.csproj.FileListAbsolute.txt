@@ -9,3 +9,4 @@ c:\users\jah\source\repos\bikestoreAPI\bikestoreAPI\obj\Debug\netcoreapp2.0\bike
 c:\users\jah\source\repos\bikestoreAPI\bikestoreAPI\obj\Debug\netcoreapp2.0\bikestoreAPI.AssemblyInfo.cs
 c:\users\jah\source\repos\bikestoreAPI\bikestoreAPI\obj\Debug\netcoreapp2.0\bikestoreAPI.dll
 c:\users\jah\source\repos\bikestoreAPI\bikestoreAPI\obj\Debug\netcoreapp2.0\bikestoreAPI.pdb
+C:\Users\jah\source\repos\bikestoreAPI\bikestoreAPI\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs

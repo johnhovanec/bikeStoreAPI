@@ -30,6 +30,20 @@ namespace bikestoreAPI
             //    opt.UseInMemoryDatabase("bikestoreAPI"));
 
             //services.AddDbContext<StoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("StoreContext")));
+            services.AddCors(options =>
+            {
+                //options.AddPolicy("AllowCredentials",
+                //    builder =>
+                //    {
+                //        builder.WithOrigins("http://localhost:3000")
+                //               .AllowCredentials();
+                //    });
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                    });
+            });
 
             var connection = @"Server=WIN10;Database=bikestoreAPI;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<StoreContext>(options => options.UseSqlServer(connection));
@@ -44,6 +58,10 @@ namespace bikestoreAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            // Shows UseCors with CorsPolicyBuilder.
+            app.UseCors(builder =>
+               builder.WithOrigins("http://localhost:3000"));
 
             app.UseMvc();
         }
