@@ -9,3 +9,4 @@ C:\Users\jah\source\repos\bikestoreAPI\bikestoreAPI\obj\Debug\netcoreapp2.0\bike
 C:\Users\jah\source\repos\bikestoreAPI\bikestoreAPI\obj\Debug\netcoreapp2.0\bikestoreAPI.AssemblyInfo.cs
 C:\Users\jah\source\repos\bikestoreAPI\bikestoreAPI\obj\Debug\netcoreapp2.0\bikestoreAPI.dll
 C:\Users\jah\source\repos\bikestoreAPI\bikestoreAPI\obj\Debug\netcoreapp2.0\bikestoreAPI.pdb
+C:\Users\jah\source\repos\bikestoreAPI\bikestoreAPI\obj\Debug\netcoreapp2.0\bikestoreAPI.csprojResolveAssemblyReference.cache

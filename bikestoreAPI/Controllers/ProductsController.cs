@@ -52,9 +52,22 @@ namespace bikestoreAPI.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public IEnumerable<Product> GetProduct()
+        public IEnumerable<Product> GetProduct([FromQuery] string searchTerm)
         {
-            return _context.Product;
+            var products = from p in _context.Product
+                           select p;
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                products = products.Where(p => p.Manufacturer.Contains(searchTerm));
+            }
+
+            //if (!string.IsNullOrEmpty(searchTerm))
+            //{
+            //    products = products.Where(p => p.Type.Contains(searchTerm));
+            //}
+
+            return products;
         }
 
         // GET: api/Products/5
