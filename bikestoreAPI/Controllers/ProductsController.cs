@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Cors;
 
 namespace bikestoreAPI.Controllers
 {
-    [EnableCors("AllowAllOrigins")]
+    [EnableCors("AllowMyOrigin")]
     [Produces("application/json")]
     [Route("api/Products")]
     public class ProductsController : Controller
@@ -112,6 +112,7 @@ namespace bikestoreAPI.Controllers
         }
 
         // POST: api/Products
+        [EnableCors("AllowMyOrigin")]
         [HttpPost]
         public async Task<IActionResult> PostProduct([FromBody] Product product)
         {

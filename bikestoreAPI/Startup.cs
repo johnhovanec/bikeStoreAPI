@@ -28,21 +28,54 @@ namespace bikestoreAPI
         {
             //services.AddDbContext<StoreContext>(opt =>
             //    opt.UseInMemoryDatabase("bikestoreAPI"));
-
             //services.AddDbContext<StoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("StoreContext")));
+            //services.AddCors(options =>
+            //{
+            //    //options.AddPolicy("AllowCredentials",
+            //    //    builder =>
+            //    //    {
+            //    //        builder.WithOrigins("http://localhost:3000")
+            //    //               .AllowCredentials();
+            //    //    });
+
+            //    //options.AddPolicy("AllowAllOrigins",
+            //    //    builder =>
+            //    //    {
+            //    //        builder.AllowAnyOrigin();
+            //    //    });
+
+            //    //options.AddPolicy("AllowAllMethods",
+            //    //builder =>
+            //    //{
+            //    //    builder.AllowAnyOrigin()
+            //    //           .AllowAnyMethod();
+            //    //});
+
+            //    //options.AddPolicy("AllowAllHeaders",
+            //    //builder =>
+            //    //{
+            //    //    builder.AllowAnyOrigin()
+            //    //           .AllowAnyHeader()
+            //    //           .AllowAnyMethod();
+            //    //});
+
+
+            //    options.AddPolicy("AllowAllOrigins",
+            //        builder => builder
+            //        .AllowAnyOrigin()
+            //        .AllowAnyHeader()
+            //        .AllowAnyMethod());
+            //});
+
+
             services.AddCors(options =>
             {
-                //options.AddPolicy("AllowCredentials",
-                //    builder =>
-                //    {
-                //        builder.WithOrigins("http://localhost:3000")
-                //               .AllowCredentials();
-                //    });
-                options.AddPolicy("AllowAllOrigins",
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin();
-                    });
+                options.AddPolicy("AllowMyOrigin",
+                builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials());
             });
 
             var connection = @"Server=WIN10;Database=bikestoreAPI;Trusted_Connection=True;ConnectRetryCount=0";
@@ -60,8 +93,9 @@ namespace bikestoreAPI
             }
 
             // Shows UseCors with CorsPolicyBuilder.
-            app.UseCors(builder =>
-               builder.WithOrigins("http://localhost:3000"));
+            //app.UseCors(builder =>
+            //   builder.WithOrigins("http://localhost:3000"));
+            app.UseCors("AllowMyOrigin");
 
             app.UseMvc();
         }

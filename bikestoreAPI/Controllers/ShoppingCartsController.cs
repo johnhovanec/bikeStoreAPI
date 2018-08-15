@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bikestoreAPI.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace bikestoreAPI.Controllers
 {
+    [EnableCors("AllowMyOrigin")]
     [Produces("application/json")]
     [Route("api/ShoppingCarts")]
     public class ShoppingCartsController : Controller
@@ -92,6 +94,7 @@ namespace bikestoreAPI.Controllers
         }
 
         // POST: api/ShoppingCarts
+        [EnableCors("AllowMyOrigin")]
         [HttpPost]
         public async Task<IActionResult> PostShoppingCart([FromBody] ShoppingCart shoppingCart)
         {
