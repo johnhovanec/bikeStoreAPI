@@ -59,14 +59,18 @@ namespace bikestoreAPI.Controllers
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
-                products = products.Where(p => p.Manufacturer.Contains(searchTerm));
+                var typeMatches = products.Where(p => p.Type.Contains(searchTerm));
+                if (typeMatches.Count() > 0)
+                    return typeMatches;
+
+                var manufacturerMatches = products.Where(p => p.Manufacturer.Contains(searchTerm));
+                if (manufacturerMatches.Count() > 0)
+                    return manufacturerMatches;
+
+                var modelMatches = products.Where(p => p.Model.Contains(searchTerm));
+                if (modelMatches.Count() > 0)
+                    return modelMatches;
             }
-
-            //if (!string.IsNullOrEmpty(searchTerm))
-            //{
-            //    products = products.Where(p => p.Type.Contains(searchTerm));
-            //}
-
             return products;
         }
 
