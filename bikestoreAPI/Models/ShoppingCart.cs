@@ -13,6 +13,9 @@ namespace bikestoreAPI.Models
         public DateTime? OrderPlacedTimeStamp { get; set; }
         //public string CartIdentifier { get; set; }
         public string PaymentMethod { get; set; }
+        public decimal Total { get; set; }
+        public decimal Tax { get; set; }
+        public decimal Shipping { get; set; }
 
         public Customer Customer { get; set; }
         //public ICollection<ShoppingCartProduct> ShoppingCartProduct { get; set; }
