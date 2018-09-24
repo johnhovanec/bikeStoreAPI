@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bikestoreAPI.Models;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace bikestoreAPI.Controllers
 {
@@ -128,6 +129,39 @@ namespace bikestoreAPI.Controllers
             return NoContent();
         }
 
+        //PATCH: api/Products/1
+        [EnableCors("AllowMyOrigin")]
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchProduct([FromRoute] int id, [FromBody]JsonPatchDocument<Product> request)
+        {
+            var product = _context.Product.FirstOrDefault(p => p.Id == id);
+            if (product == null)
+                return NotFound();
+            else
+            {
+                product.Rating = request.Operations.FirstOrDefault().value.ToString();
+            }
+
+            _context.Entry(product).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductExists(product.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return NoContent();
+        }
+
         // POST: api/Products
         [EnableCors("AllowMyOrigin")]
         [HttpPost]
@@ -170,4 +204,12 @@ namespace bikestoreAPI.Controllers
             return _context.Product.Any(e => e.Id == id);
         }
     }
+}
+
+
+public class RatingPatchRequest
+{
+    public string Op { get; set; }
+    public string Path { get; set; }
+    public string Value { get; set; }
 }
