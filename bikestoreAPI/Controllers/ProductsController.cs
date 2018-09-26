@@ -131,7 +131,7 @@ namespace bikestoreAPI.Controllers
 
         //PATCH: api/Products/1
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchProduct([FromRoute] int id, [FromBody]JsonPatchDocument<Product> request)
+        public async Task<IActionResult> PatchProductRating([FromRoute] int id, [FromBody]JsonPatchDocument<Product> request)
         {
             var product = _context.Product.FirstOrDefault(p => p.Id == id);
             if (product == null)
