@@ -130,7 +130,6 @@ namespace bikestoreAPI.Controllers
         }
 
         //PATCH: api/Products/1
-        [EnableCors("AllowMyOrigin")]
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchProduct([FromRoute] int id, [FromBody]JsonPatchDocument<Product> request)
         {
@@ -159,7 +158,7 @@ namespace bikestoreAPI.Controllers
                     throw;
                 }
             }
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/Products
