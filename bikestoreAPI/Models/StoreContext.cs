@@ -19,5 +19,9 @@ namespace bikestoreAPI.Models
         public DbSet<ShoppingCartProduct> ShoppingCartProduct { get; set; }
         public DbSet<PaymentMethod> PaymentMethod { get; set; }
         public DbSet<ShippingMethod> ShippingMethod { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<OrderProduct> OrderProduct { get; set; }
+        public DbSet<Address> Address { get; set; }
+        public DbSet<BackOrder> BackOrder { get; set; }
     }
 }
