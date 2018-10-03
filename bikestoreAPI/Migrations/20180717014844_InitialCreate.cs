@@ -9,7 +9,7 @@ namespace bikestoreAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Customer",
+                name: "User",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -69,7 +69,7 @@ namespace bikestoreAPI.Migrations
                     table.ForeignKey(
                         name: "FK_ShoppingCart_Customer_CustomerId",
                         column: x => x.CustomerId,
-                        principalTable: "Customer",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -133,7 +133,7 @@ namespace bikestoreAPI.Migrations
                 name: "ShoppingCart");
 
             migrationBuilder.DropTable(
-                name: "Customer");
+                name: "User");
         }
     }
 }

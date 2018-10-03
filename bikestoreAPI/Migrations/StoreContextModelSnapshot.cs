@@ -19,7 +19,7 @@ namespace bikestoreAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("bikestoreAPI.Models.Customer", b =>
+            modelBuilder.Entity("bikestoreAPI.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,7 +45,7 @@ namespace bikestoreAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customer");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("bikestoreAPI.Models.Product", b =>
@@ -140,7 +140,7 @@ namespace bikestoreAPI.Migrations
 
             modelBuilder.Entity("bikestoreAPI.Models.ShoppingCart", b =>
                 {
-                    b.HasOne("bikestoreAPI.Models.Customer", "Customer")
+                    b.HasOne("bikestoreAPI.Models.User", "User")
                         .WithOne("ShoppingCart")
                         .HasForeignKey("bikestoreAPI.Models.ShoppingCart", "CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);

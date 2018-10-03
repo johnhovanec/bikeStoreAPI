@@ -19,27 +19,27 @@ namespace bikestoreAPI.Controllers
         {
             _context = context;
 
-            if (_context.Customer.Count() == 0)
+            if (_context.User.Count() == 0)
             {
-                _context.Customer.Add(new Customer
-                {
-                    Name = "Joe Test",
-                    Address = "1 Main Street",
-                    City = "Towson",
-                    Email = "jt@test.com",
-                    State = "MD",
-                    Zip = "21212",
-                    Phone = "4435551212"
-                });
-                _context.SaveChanges();
+                //_context.User.Add(new User
+                //{
+                //    FName = "Joe Test",
+                //    Address = "1 Main Street",
+                //    User.ACity = "Towson",
+                //    Email = "jt@test.com",
+                //    State = "MD",
+                //    Zip = "21212",
+                //    Phone = "4435551212"
+                //});
+                //_context.SaveChanges();
             }
         }
 
         // GET: api/Customers
         [HttpGet]
-        public IEnumerable<Customer> GetCustomer()
+        public IEnumerable<User> GetCustomer()
         {
-            return _context.Customer;
+            return _context.User;
         }
 
         // GET: api/Customers/5
@@ -51,7 +51,7 @@ namespace bikestoreAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var customer = await _context.Customer.SingleOrDefaultAsync(m => m.Id == id);
+            var customer = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
 
             if (customer == null)
             {
@@ -63,7 +63,7 @@ namespace bikestoreAPI.Controllers
 
         // PUT: api/Customers/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer([FromRoute] int id, [FromBody] Customer customer)
+        public async Task<IActionResult> PutCustomer([FromRoute] int id, [FromBody] User customer)
         {
             if (!ModelState.IsValid)
             {
@@ -98,14 +98,14 @@ namespace bikestoreAPI.Controllers
 
         // POST: api/Customers
         [HttpPost]
-        public async Task<IActionResult> PostCustomer([FromBody] Customer customer)
+        public async Task<IActionResult> PostCustomer([FromBody] User customer)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Customer.Add(customer);
+            _context.User.Add(customer);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
@@ -120,13 +120,13 @@ namespace bikestoreAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var customer = await _context.Customer.SingleOrDefaultAsync(m => m.Id == id);
+            var customer = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
             if (customer == null)
             {
                 return NotFound();
             }
 
-            _context.Customer.Remove(customer);
+            _context.User.Remove(customer);
             await _context.SaveChangesAsync();
 
             return Ok(customer);
@@ -134,7 +134,7 @@ namespace bikestoreAPI.Controllers
 
         private bool CustomerExists(int id)
         {
-            return _context.Customer.Any(e => e.Id == id);
+            return _context.User.Any(e => e.Id == id);
         }
     }
 }
