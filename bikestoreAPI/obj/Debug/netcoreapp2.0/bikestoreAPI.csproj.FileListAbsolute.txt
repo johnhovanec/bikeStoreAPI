@@ -3,7 +3,6 @@ C:\Users\jah\source\repos\bikestoreAPI\bikestoreAPI\bin\Debug\netcoreapp2.0\bike
 C:\Users\jah\source\repos\bikestoreAPI\bikestoreAPI\bin\Debug\netcoreapp2.0\bikestoreAPI.runtimeconfig.dev.json
 C:\Users\jah\source\repos\bikestoreAPI\bikestoreAPI\bin\Debug\netcoreapp2.0\bikestoreAPI.dll
 C:\Users\jah\source\repos\bikestoreAPI\bikestoreAPI\bin\Debug\netcoreapp2.0\bikestoreAPI.pdb
-C:\Users\jah\source\repos\bikestoreAPI\bikestoreAPI\obj\Debug\netcoreapp2.0\bikestoreAPI.csprojResolveAssemblyReference.cache
 C:\Users\jah\source\repos\bikestoreAPI\bikestoreAPI\obj\Debug\netcoreapp2.0\bikestoreAPI.csproj.CoreCompileInputs.cache
 C:\Users\jah\source\repos\bikestoreAPI\bikestoreAPI\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
 C:\Users\jah\source\repos\bikestoreAPI\bikestoreAPI\obj\Debug\netcoreapp2.0\bikestoreAPI.AssemblyInfoInputs.cache
