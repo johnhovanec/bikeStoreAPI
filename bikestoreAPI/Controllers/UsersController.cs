@@ -10,7 +10,7 @@ using bikestoreAPI.Models;
 namespace bikestoreAPI.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Customers")]
+    [Route("api/Users")]
     public class CustomersController : Controller
     {
         private readonly StoreContext _context;
