@@ -6,61 +6,60 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bikestoreAPI.Models;
-
 namespace bikestoreAPI.Controllers
 {
     [Produces("application/json")]
-    [Route("api/OrderProducts")]
-    public class OrderProductsController : Controller
+    [Route("api/Addresses")]
+    public class AddressesController : Controller
     {
         private readonly StoreContext _context;
 
-        public OrderProductsController(StoreContext context)
+        public AddressesController(StoreContext context)
         {
             _context = context;
         }
 
-        // GET: api/OrderProducts
+        // GET: api/Addresses
         [HttpGet]
-        public IEnumerable<OrderProduct> GetOrderProduct()
+        public IEnumerable<Address> GetAddress()
         {
-            return _context.OrderProduct;
+            return _context.Address;
         }
 
-        // GET: api/OrderProducts/5
+        // GET: api/Addresses/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOrderProduct([FromRoute] int id)
+        public async Task<IActionResult> GetAddress([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var orderProduct = await _context.OrderProduct.SingleOrDefaultAsync(m => m.Id == id);
+            var address = await _context.Address.SingleOrDefaultAsync(m => m.Id == id);
 
-            if (orderProduct == null)
+            if (address == null)
             {
                 return NotFound();
             }
 
-            return Ok(orderProduct);
+            return Ok(address);
         }
 
-        // PUT: api/OrderProducts/5
+        // PUT: api/Addresses/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrderProduct([FromRoute] int id, [FromBody] OrderProduct orderProduct)
+        public async Task<IActionResult> PutAddress([FromRoute] int id, [FromBody] Address address)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != orderProduct.Id)
+            if (id != address.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(orderProduct).State = EntityState.Modified;
+            _context.Entry(address).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +67,7 @@ namespace bikestoreAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!OrderProductExists(id))
+                if (!AddressExists(id))
                 {
                     return NotFound();
                 }
@@ -81,45 +80,45 @@ namespace bikestoreAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/OrderProducts
+        // POST: api/Addresses
         [HttpPost]
-        public async Task<IActionResult> PostOrderProduct([FromBody] OrderProduct orderProduct)
+        public async Task<IActionResult> PostAddress([FromBody] Address address)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.OrderProduct.Add(orderProduct);
+            _context.Address.Add(address);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetOrderProduct", new { id = orderProduct.Id }, orderProduct);
+            return CreatedAtAction("GetAddress", new { id = address.Id }, address);
         }
 
-        // DELETE: api/OrderProducts/5
+        // DELETE: api/Addresses/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrderProduct([FromRoute] int id)
+        public async Task<IActionResult> DeleteAddress([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var orderProduct = await _context.OrderProduct.SingleOrDefaultAsync(m => m.Id == id);
-            if (orderProduct == null)
+            var address = await _context.Address.SingleOrDefaultAsync(m => m.Id == id);
+            if (address == null)
             {
                 return NotFound();
             }
 
-            _context.OrderProduct.Remove(orderProduct);
+            _context.Address.Remove(address);
             await _context.SaveChangesAsync();
 
-            return Ok(orderProduct);
+            return Ok(address);
         }
 
-        private bool OrderProductExists(int id)
+        private bool AddressExists(int id)
         {
-            return _context.OrderProduct.Any(o => o.Id == id);
+            return _context.Address.Any(e => e.Id == id);
         }
     }
 }
