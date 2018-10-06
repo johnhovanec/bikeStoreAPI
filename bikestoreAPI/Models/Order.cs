@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace bikestoreAPI.Models
 {
@@ -10,6 +11,7 @@ namespace bikestoreAPI.Models
         public DateTime? TimeStamp { get; set; }
         public decimal Tax { get; set; }
         public string SourceCode { get; set; }
+        public int ShippingAddressId { get; set; }
         public decimal ShippingCost { get; set; }
         public decimal Subtotal { get; set; }
         public decimal Total { get; set; }
@@ -24,8 +26,10 @@ namespace bikestoreAPI.Models
         public int? PaymentMethodId { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
 
+        [Column("BillingAddressId")]
         public int? AddressId { get; set; }
         public Address Address { get; set; }
+        //public Address ShippingAddress { get; set; }
 
         public int? ShippingMethodId { get; set; }
         public ShippingMethod ShippingMethod { get; set; }
