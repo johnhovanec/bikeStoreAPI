@@ -21,34 +21,6 @@ namespace bikestoreAPI.Controllers
         public ProductsController(StoreContext context)
         {
             _context = context;
-
-            if (_context.Product.Count() == 0)
-            {
-                _context.Product.Add(new Product {
-                    Manufacturer = "Trek",
-                    Model = "8400",
-                    Type = "Mountain",
-                    Price = 989.99m,
-                    Color ="silver",
-                    Size = "XL",
-                    InventoryQuantity = 12,
-                    ImagePath = ""
-                });
-
-                _context.Product.Add(new Product
-                {
-                    Manufacturer = "Giant",
-                    Model = "ARX",
-                    Type = "Mountain",
-                    Price = 459.99m,
-                    Color = "black",
-                    Size = "S",
-                    InventoryQuantity = 6,
-                    ImagePath = ""
-                });
-                _context.SaveChanges();
-            }
-
         }
 
         // GET: api/Products
