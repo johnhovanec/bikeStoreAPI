@@ -41,7 +41,7 @@ namespace bikestoreAPI.Migrations
 
                     b.Property<int>("Type");
 
-                    b.Property<int>("UserId");
+                    b.Property<int?>("UserId");
 
                     b.Property<string>("Zip");
 
@@ -60,14 +60,15 @@ namespace bikestoreAPI.Migrations
 
                     b.Property<DateTime>("DateExpected");
 
-                    b.Property<int>("ProductId");
+                    b.Property<int?>("ProductId");
 
                     b.Property<DateTime?>("TimeStamp");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ProductId] IS NOT NULL");
 
                     b.ToTable("BackOrder");
                 });
@@ -78,15 +79,15 @@ namespace bikestoreAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AddressId");
+                    b.Property<int?>("AddressId");
 
-                    b.Property<int>("PaymentMethodId");
+                    b.Property<int?>("PaymentMethodId");
 
                     b.Property<decimal>("ShippingCost");
 
-                    b.Property<int>("ShippingMethodId");
+                    b.Property<int?>("ShippingMethodId");
 
-                    b.Property<int>("ShoppingCartId");
+                    b.Property<int?>("ShoppingCartId");
 
                     b.Property<string>("SourceCode");
 
@@ -98,7 +99,7 @@ namespace bikestoreAPI.Migrations
 
                     b.Property<decimal>("Total");
 
-                    b.Property<int>("UserId");
+                    b.Property<int?>("UserId");
 
                     b.HasKey("Id");
 
@@ -123,9 +124,9 @@ namespace bikestoreAPI.Migrations
 
                     b.Property<string>("Color");
 
-                    b.Property<int>("OrderId");
+                    b.Property<int?>("OrderId");
 
-                    b.Property<int>("ProductId");
+                    b.Property<int?>("ProductId");
 
                     b.Property<int?>("Quantity");
 
@@ -154,6 +155,8 @@ namespace bikestoreAPI.Migrations
 
                     b.Property<string>("CardNumber");
 
+                    b.Property<int>("CardType");
+
                     b.Property<bool>("Default");
 
                     b.Property<string>("ExpDate");
@@ -162,7 +165,7 @@ namespace bikestoreAPI.Migrations
 
                     b.Property<DateTime?>("TimeStamp");
 
-                    b.Property<int>("UserId");
+                    b.Property<int?>("UserId");
 
                     b.HasKey("Id");
 
@@ -214,7 +217,7 @@ namespace bikestoreAPI.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("Name");
+                    b.Property<int>("Name");
 
                     b.Property<decimal>("Rate");
 
@@ -233,21 +236,9 @@ namespace bikestoreAPI.Migrations
 
                     b.Property<DateTime?>("CartTimeStamp");
 
-                    b.Property<int>("CustomerId");
-
                     b.Property<bool?>("OrderPlaced");
 
-                    b.Property<DateTime?>("OrderPlacedTimeStamp");
-
-                    b.Property<string>("PaymentMethod");
-
-                    b.Property<decimal>("Shipping");
-
-                    b.Property<decimal>("Tax");
-
-                    b.Property<decimal>("Total");
-
-                    b.Property<int>("UserId");
+                    b.Property<int?>("UserId");
 
                     b.HasKey("Id");
 
@@ -264,11 +255,11 @@ namespace bikestoreAPI.Migrations
 
                     b.Property<string>("Color");
 
-                    b.Property<int>("ProductId");
+                    b.Property<int?>("ProductId");
 
                     b.Property<int?>("Quantity");
 
-                    b.Property<int>("ShoppingCartId");
+                    b.Property<int?>("ShoppingCartId");
 
                     b.Property<string>("Size");
 
@@ -322,86 +313,73 @@ namespace bikestoreAPI.Migrations
                 {
                     b.HasOne("bikestoreAPI.Models.User", "User")
                         .WithMany("Address")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("bikestoreAPI.Models.BackOrder", b =>
                 {
                     b.HasOne("bikestoreAPI.Models.Product", "Product")
                         .WithOne("BackOrder")
-                        .HasForeignKey("bikestoreAPI.Models.BackOrder", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("bikestoreAPI.Models.BackOrder", "ProductId");
                 });
 
             modelBuilder.Entity("bikestoreAPI.Models.Order", b =>
                 {
                     b.HasOne("bikestoreAPI.Models.Address", "Address")
                         .WithMany("Order")
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AddressId");
 
                     b.HasOne("bikestoreAPI.Models.PaymentMethod", "PaymentMethod")
                         .WithMany("Order")
-                        .HasForeignKey("PaymentMethodId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PaymentMethodId");
 
                     b.HasOne("bikestoreAPI.Models.ShippingMethod", "ShippingMethod")
                         .WithMany("Order")
-                        .HasForeignKey("ShippingMethodId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ShippingMethodId");
 
                     b.HasOne("bikestoreAPI.Models.ShoppingCart", "ShoppingCart")
                         .WithMany("Order")
-                        .HasForeignKey("ShoppingCartId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ShoppingCartId");
 
                     b.HasOne("bikestoreAPI.Models.User", "User")
                         .WithMany("Order")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("bikestoreAPI.Models.OrderProduct", b =>
                 {
                     b.HasOne("bikestoreAPI.Models.Order", "Order")
                         .WithMany("OrderProduct")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("bikestoreAPI.Models.Product", "Product")
                         .WithMany("OrderProduct")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("bikestoreAPI.Models.PaymentMethod", b =>
                 {
                     b.HasOne("bikestoreAPI.Models.User", "User")
                         .WithMany("PaymentMethod")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("bikestoreAPI.Models.ShoppingCart", b =>
                 {
                     b.HasOne("bikestoreAPI.Models.User", "User")
                         .WithMany("ShoppingCart")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("bikestoreAPI.Models.ShoppingCartProduct", b =>
                 {
                     b.HasOne("bikestoreAPI.Models.Product", "Product")
                         .WithMany("ShoppingCartProduct")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProductId");
 
                     b.HasOne("bikestoreAPI.Models.ShoppingCart", "ShoppingCart")
                         .WithMany("ShoppingCartProduct")
-                        .HasForeignKey("ShoppingCartId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ShoppingCartId");
                 });
 #pragma warning restore 612, 618
         }

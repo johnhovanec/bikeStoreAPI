@@ -8,7 +8,7 @@ namespace bikestoreAPI.Models
         public DateTime? TimeStamp { get; set; }
         public DateTime DateExpected { get; set; }
 
-        public int ProductId { get; set; }
+        public int? ProductId { get; set; }
         public Product Product { get; set; }
     }
 }

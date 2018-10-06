@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace bikestoreAPI.Models
 {
@@ -14,19 +15,19 @@ namespace bikestoreAPI.Models
         public decimal Total { get; set; }
 
         // 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public User User { get; set; }
 
-        public int ShoppingCartId { get; set; }
+        public int? ShoppingCartId { get; set; }
         public ShoppingCart ShoppingCart { get; set; }
 
-        public int PaymentMethodId { get; set; }
+        public int? PaymentMethodId { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
 
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
         public Address Address { get; set; }
 
-        public int ShippingMethodId { get; set; }
+        public int? ShippingMethodId { get; set; }
         public ShippingMethod ShippingMethod { get; set; }
 
         //

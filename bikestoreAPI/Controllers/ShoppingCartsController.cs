@@ -25,8 +25,8 @@ namespace bikestoreAPI.Controllers
             {
                 _context.ShoppingCart.Add(new ShoppingCart
                 {
-                    CustomerId = 1,
-                    CartTimeStamp = System.DateTime.Now,
+                    //CustomerId = 1,
+                    //CartTimeStamp = System.DateTime.Now,
                 });
                 _context.SaveChanges();
             }
@@ -48,7 +48,7 @@ namespace bikestoreAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var shoppingCart = await _context.ShoppingCart.SingleOrDefaultAsync(m => m.CustomerId == id);
+            var shoppingCart = await _context.ShoppingCart.SingleOrDefaultAsync(m => m.UserId == id);
 
             if (shoppingCart == null)
             {

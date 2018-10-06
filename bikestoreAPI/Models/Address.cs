@@ -18,7 +18,7 @@ namespace bikestoreAPI.Models
         public bool Default { get; set; }
 
         //
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public User User { get; set; }
 
         //
