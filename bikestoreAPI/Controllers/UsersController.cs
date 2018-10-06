@@ -11,11 +11,11 @@ namespace bikestoreAPI.Controllers
 {
     [Produces("application/json")]
     [Route("api/Users")]
-    public class CustomersController : Controller
+    public class UsersController : Controller
     {
         private readonly StoreContext _context;
 
-        public CustomersController(StoreContext context)
+        public UsersController(StoreContext context)
         {
             _context = context;
 
@@ -35,47 +35,47 @@ namespace bikestoreAPI.Controllers
             }
         }
 
-        // GET: api/Customers
+        // GET: api/Users
         [HttpGet]
-        public IEnumerable<User> GetCustomer()
+        public IEnumerable<User> GetUser()
         {
             return _context.User;
         }
 
-        // GET: api/Customers/5
+        // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCustomer([FromRoute] int id)
+        public async Task<IActionResult> GetUser([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var customer = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
+            var user = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
 
-            if (customer == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return Ok(customer);
+            return Ok(user);
         }
 
-        // PUT: api/Customers/5
+        // PUT: api/Users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer([FromRoute] int id, [FromBody] User customer)
+        public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != customer.Id)
+            if (id != user.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(customer).State = EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
 
             try
             {
@@ -83,7 +83,7 @@ namespace bikestoreAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CustomerExists(id))
+                if (!UserExists(id))
                 {
                     return NotFound();
                 }
@@ -96,43 +96,43 @@ namespace bikestoreAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Customers
+        // POST: api/Users
         [HttpPost]
-        public async Task<IActionResult> PostCustomer([FromBody] User customer)
+        public async Task<IActionResult> PostUser([FromBody] User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.User.Add(customer);
+            _context.User.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
+            return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
-        // DELETE: api/Customers/5
+        // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomer([FromRoute] int id)
+        public async Task<IActionResult> DeleteUser([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var customer = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            var user = await _context.User.SingleOrDefaultAsync(m => m.Id == id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            _context.User.Remove(customer);
+            _context.User.Remove(user);
             await _context.SaveChangesAsync();
 
-            return Ok(customer);
+            return Ok(user);
         }
 
-        private bool CustomerExists(int id)
+        private bool UserExists(int id)
         {
             return _context.User.Any(e => e.Id == id);
         }

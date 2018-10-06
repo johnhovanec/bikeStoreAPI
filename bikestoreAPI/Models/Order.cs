@@ -29,7 +29,6 @@ namespace bikestoreAPI.Models
         [Column("BillingAddressId")]
         public int? AddressId { get; set; }
         public Address Address { get; set; }
-        //public Address ShippingAddress { get; set; }
 
         public int? ShippingMethodId { get; set; }
         public ShippingMethod ShippingMethod { get; set; }
