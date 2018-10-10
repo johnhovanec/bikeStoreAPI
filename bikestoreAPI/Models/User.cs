@@ -19,6 +19,7 @@ namespace bikestoreAPI.Models
         public int? FailedLogins { get; set; }
         public UserType Type { get; set; }
         public DateTime? PwdTimeStamp { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
 
         //public ShoppingCart ShoppingCart { get; set; }
@@ -26,5 +27,6 @@ namespace bikestoreAPI.Models
         public List<PaymentMethod> PaymentMethod { get; set; }
         public List<Address> Address { get; set; }
         public List<Order> Order { get; set; }
+        public List<Session> Session { get; set; }
     }
 }

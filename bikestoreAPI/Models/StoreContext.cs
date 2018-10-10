@@ -23,5 +23,6 @@ namespace bikestoreAPI.Models
         public DbSet<OrderProduct> OrderProduct { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<BackOrder> BackOrder { get; set; }
+        public DbSet<Session> Session { get; set; }
     }
 }

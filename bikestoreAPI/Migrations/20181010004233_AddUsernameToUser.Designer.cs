@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bikestoreAPI.Models;
 
 namespace bikestoreAPI.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20181010004233_AddUsernameToUser")]
+    partial class AddUsernameToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,27 +214,6 @@ namespace bikestoreAPI.Migrations
                     b.ToTable("Product");
                 });
 
-            modelBuilder.Entity("bikestoreAPI.Models.Session", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime?>("SessionExpires");
-
-                    b.Property<string>("SessionId");
-
-                    b.Property<DateTime?>("SessionStart");
-
-                    b.Property<int?>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Session");
-                });
-
             modelBuilder.Entity("bikestoreAPI.Models.ShippingMethod", b =>
                 {
                     b.Property<int>("Id")
@@ -387,13 +368,6 @@ namespace bikestoreAPI.Migrations
                 {
                     b.HasOne("bikestoreAPI.Models.User", "User")
                         .WithMany("PaymentMethod")
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("bikestoreAPI.Models.Session", b =>
-                {
-                    b.HasOne("bikestoreAPI.Models.User", "User")
-                        .WithMany("Session")
                         .HasForeignKey("UserId");
                 });
 

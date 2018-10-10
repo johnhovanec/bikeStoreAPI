@@ -10,7 +10,6 @@ namespace bikestoreAPI.Models
         public DateTime? CartTimeStamp { get; set; }
         public bool? OrderPlaced { get; set; }
 
-        //public User Customer { get; set; }
         public int? UserId { get; set; }
         public User User { get; set; }
 
