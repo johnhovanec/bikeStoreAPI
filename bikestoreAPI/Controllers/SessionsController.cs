@@ -83,17 +83,35 @@ namespace bikestoreAPI.Controllers
 
         // POST: api/Sessions
         [HttpPost]
-        public async Task<IActionResult> PostSession([FromBody] Session session)
+        public async Task<IActionResult> PostSession([FromBody] Login login)
         {
+            var session = new Session();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Session.Add(session);
-            await _context.SaveChangesAsync();
+            var users = from u in _context.User
+                           select u;
+            if (!string.IsNullOrEmpty(login.Username))
+            {
+                var user = users.Where(u => u.Username.Equals(login.Username)).FirstOrDefault();
+                if (user.Password.Equals(login.Password))
+                {
+                    // Login success
+                    session.SessionStart = DateTime.Parse(login.Timestamp);
+                    session.SessionExpires = DateTime.Parse(login.Timestamp).AddDays(30);
+                    session.SessionId = login.SessionId;
+                    _context.Session.Add(session);
+                    await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSession", new { id = session.Id }, session);
+                    return CreatedAtAction("GetSession", new { id = session.Id }, session);
+                }
+            }
+
+            // Login failure
+            return NotFound();
         }
 
         // DELETE: api/Sessions/5
@@ -122,4 +140,14 @@ namespace bikestoreAPI.Controllers
             return _context.Session.Any(e => e.Id == id);
         }
     }
+
+    // Model used for JSON login object
+    public class Login
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string SessionId { get; set; }
+        public string Timestamp { get; set; }
+    }
+
 }
