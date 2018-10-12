@@ -97,9 +97,12 @@ namespace bikestoreAPI.Controllers
             if (!string.IsNullOrEmpty(login.Username))
             {
                 var user = users.Where(u => u.Username.Equals(login.Username)).FirstOrDefault();
+                if (user == null)
+                    return NotFound();
                 if (user.Password.Equals(login.Password))
                 {
                     // Login success
+                    session.UserSessionType = user.Type;
                     session.SessionStart = DateTime.Parse(login.Timestamp);
                     session.SessionExpires = DateTime.Parse(login.Timestamp).AddDays(30);
                     session.SessionId = login.SessionId;
