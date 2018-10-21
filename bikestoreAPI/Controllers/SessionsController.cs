@@ -106,6 +106,7 @@ namespace bikestoreAPI.Controllers
                     session.SessionStart = DateTime.Parse(login.Timestamp);
                     session.SessionExpires = DateTime.Parse(login.Timestamp).AddDays(30);
                     session.SessionId = login.SessionId;
+                    session.UserId = user.Id;
                     _context.Session.Add(session);
                     await _context.SaveChangesAsync();
 
