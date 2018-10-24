@@ -96,8 +96,29 @@ namespace bikestoreAPI.Controllers
         // POST: api/ShoppingCarts
         [EnableCors("AllowMyOrigin")]
         [HttpPost]
-        public async Task<IActionResult> PostShoppingCart([FromBody] ShoppingCart shoppingCart)
+        public async Task<IActionResult> PostShoppingCart([FromBody] AddToCartProduct product)
         {
+            var userId = _context.Session.Where(s => s.Id.Equals(product.SessionId))
+                                          .OrderByDescending(s => s.SessionStart)
+                                          .Select(s => s.UserId);
+
+            var shoppingCart = _context.ShoppingCart.Where(c => c.UserId.Equals(userId))
+                                                    .OrderByDescending(c => c.CartTimeStamp)
+                                                    .FirstOrDefault() as ShoppingCart;
+
+            // Check if a cart already exists for the customer
+            if (shoppingCart != null)
+            {
+                // Do something
+            }
+            else
+            {
+                shoppingCart.CartTimeStamp = DateTime.Now;
+                shoppingCart.OrderPlaced = false;
+                shoppingCart.UserId = Convert.ToInt32(userId);
+            }
+
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -133,6 +154,23 @@ namespace bikestoreAPI.Controllers
         private bool ShoppingCartExists(int id)
         {
             return _context.ShoppingCart.Any(e => e.Id == id);
+        }
+
+        // Model to use for AddToCart submit
+        public class AddToCartProduct
+        {
+            public int Id { get; set; }
+            public string Manufacturer { get; set; }
+            public string Model { get; set; }
+            public string Type { get; set; }
+            public string Size { get; set; }
+            public string Color { get; set; }
+            public string Description { get; set; }
+            public string Rating { get; set; }
+            public decimal Price { get; set; }
+            public int InventoryQuantity { get; set; }
+            public int CartQuantity { get; set; }
+            public string SessionId { get; set; }
         }
     }
 }

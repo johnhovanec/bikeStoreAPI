@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bikestoreAPI.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace bikestoreAPI.Controllers
 {
+    [EnableCors("AllowMyOrigin")]
     [Produces("application/json")]
     [Route("api/Sessions")]
     public class SessionsController : Controller
@@ -82,6 +84,7 @@ namespace bikestoreAPI.Controllers
         }
 
         // POST: api/Sessions
+        [EnableCors("AllowMyOrigin")]
         [HttpPost]
         public async Task<IActionResult> PostSession([FromBody] Login login)
         {
@@ -99,6 +102,7 @@ namespace bikestoreAPI.Controllers
                 var user = users.Where(u => u.Username.Equals(login.Username)).FirstOrDefault();
                 if (user == null)
                     return NotFound();
+                //string userId = Convert.ToString(user.Id);
                 if (user.Password.Equals(login.Password))
                 {
                     // Login success
@@ -106,6 +110,7 @@ namespace bikestoreAPI.Controllers
                     session.SessionStart = DateTime.Parse(login.Timestamp);
                     session.SessionExpires = DateTime.Parse(login.Timestamp).AddDays(30);
                     session.SessionId = login.SessionId;
+                    //session.UserId = user.Id;
                     _context.Session.Add(session);
                     await _context.SaveChangesAsync();
 
@@ -151,6 +156,7 @@ namespace bikestoreAPI.Controllers
         public string Password { get; set; }
         public string SessionId { get; set; }
         public string Timestamp { get; set; }
+        //public int UserId { get; set; }
     }
 
 }
