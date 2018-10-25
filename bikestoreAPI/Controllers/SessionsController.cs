@@ -102,7 +102,7 @@ namespace bikestoreAPI.Controllers
                 var user = users.Where(u => u.Username.Equals(login.Username)).FirstOrDefault();
                 if (user == null)
                     return NotFound();
-                //string userId = Convert.ToString(user.Id);
+
                 if (user.Password.Equals(login.Password))
                 {
                     // Login success
@@ -110,11 +110,6 @@ namespace bikestoreAPI.Controllers
                     session.SessionStart = DateTime.Parse(login.Timestamp);
                     session.SessionExpires = DateTime.Parse(login.Timestamp).AddDays(30);
                     session.SessionId = login.SessionId;
-<<<<<<< HEAD
-                    //session.UserId = user.Id;
-=======
-                    session.UserId = user.Id;
->>>>>>> bb95a6d152dc019ffdf5423363b3c977553ef618
                     _context.Session.Add(session);
                     await _context.SaveChangesAsync();
 
@@ -160,7 +155,6 @@ namespace bikestoreAPI.Controllers
         public string Password { get; set; }
         public string SessionId { get; set; }
         public string Timestamp { get; set; }
-        //public int UserId { get; set; }
     }
 
 }
