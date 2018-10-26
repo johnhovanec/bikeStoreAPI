@@ -98,28 +98,28 @@ namespace bikestoreAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> PostShoppingCart([FromBody] AddToCartProduct product)
         {
-            //var userId = from u in _context.Session.Where(s => s.SessionId.Equals(product.SessionId))
-            //             select u.UserId;
+            var user = _context.Session.Where(s => s.SessionId.Equals(product.SessionId)).FirstOrDefault();
 
-            //var user = users.Where(u => u.Username.Equals(login.Username)).FirstOrDefault();
-
-            var userId = _context.Session.FirstOrDefault(s => s.Id == Convert.ToInt32(product.SessionId));
-
-            var shoppingCart = _context.ShoppingCart.Where(c => c.UserId.Equals(userId))
+            var shoppingCart = _context.ShoppingCart.Where(c => c.UserId.Equals(user.UserId))
                                                     .OrderByDescending(c => c.CartTimeStamp)
                                                     .FirstOrDefault() as ShoppingCart;
 
             // Check if a cart already exists for the customer
             if (shoppingCart != null)
             {
-                // Do something
+                // Update cart timestamp
+                shoppingCart.CartTimeStamp = DateTime.Now;
+                // Update cart
+                await PutShoppingCart(shoppingCart.Id, shoppingCart);
+                return NoContent();
             }
             else
             {
+                // Create a new shopping cart for the customer
                 shoppingCart = new ShoppingCart();
                 shoppingCart.CartTimeStamp = DateTime.Now;
                 shoppingCart.OrderPlaced = false;
-                shoppingCart.UserId = Convert.ToInt32(userId);
+                shoppingCart.UserId = user.UserId;
             }
 
 
