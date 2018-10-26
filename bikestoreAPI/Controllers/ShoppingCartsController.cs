@@ -98,9 +98,12 @@ namespace bikestoreAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> PostShoppingCart([FromBody] AddToCartProduct product)
         {
-            var userId = _context.Session.Where(s => s.Id.Equals(product.SessionId))
-                                          .OrderByDescending(s => s.SessionStart)
-                                          .Select(s => s.UserId);
+            //var userId = from u in _context.Session.Where(s => s.SessionId.Equals(product.SessionId))
+            //             select u.UserId;
+
+            //var user = users.Where(u => u.Username.Equals(login.Username)).FirstOrDefault();
+
+            var userId = _context.Session.FirstOrDefault(s => s.Id == Convert.ToInt32(product.SessionId));
 
             var shoppingCart = _context.ShoppingCart.Where(c => c.UserId.Equals(userId))
                                                     .OrderByDescending(c => c.CartTimeStamp)
@@ -113,6 +116,7 @@ namespace bikestoreAPI.Controllers
             }
             else
             {
+                shoppingCart = new ShoppingCart();
                 shoppingCart.CartTimeStamp = DateTime.Now;
                 shoppingCart.OrderPlaced = false;
                 shoppingCart.UserId = Convert.ToInt32(userId);
