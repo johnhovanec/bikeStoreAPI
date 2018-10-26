@@ -89,6 +89,7 @@ namespace bikestoreAPI.Controllers
         public async Task<IActionResult> PostSession([FromBody] Login login)
         {
             var session = new Session();
+            var sessionDb = new Session();
 
             if (!ModelState.IsValid)
             {
@@ -110,7 +111,13 @@ namespace bikestoreAPI.Controllers
                     session.SessionStart = DateTime.Parse(login.Timestamp);
                     session.SessionExpires = DateTime.Parse(login.Timestamp).AddDays(30);
                     session.SessionId = login.SessionId;
-                    _context.Session.Add(session);
+
+                    sessionDb.UserSessionType = user.Type;
+                    sessionDb.SessionStart = DateTime.Parse(login.Timestamp);
+                    sessionDb.SessionId = login.SessionId;
+                    sessionDb.UserId = user.Id;
+                    sessionDb.SessionExpires = DateTime.Parse(login.Timestamp).AddDays(30);
+                    _context.Session.Add(sessionDb);
                     await _context.SaveChangesAsync();
 
                     return CreatedAtAction("GetSession", new { id = session.Id }, session);
