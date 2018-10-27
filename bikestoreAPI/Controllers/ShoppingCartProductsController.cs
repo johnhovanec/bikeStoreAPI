@@ -117,8 +117,8 @@ namespace bikestoreAPI.Controllers
 
             _context.ShoppingCartProduct.Add(shoppingCartProduct);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetShoppingCartProduct", new { id = shoppingCartProduct.Id }, shoppingCartProduct);
+            return Ok();
+            //return CreatedAtAction("GetShoppingCartProduct", new { id = shoppingCartProduct.Id }, shoppingCartProduct);
         }
 
         // DELETE: api/ShoppingCartProducts/5

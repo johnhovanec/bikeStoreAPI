@@ -98,6 +98,7 @@ namespace bikestoreAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> PostShoppingCart([FromBody] AddToCartProduct product)
         {
+            var cartProduct = new ShoppingCartProduct();
             var user = _context.Session.Where(s => s.SessionId.Equals(product.SessionId)).FirstOrDefault();
 
             var shoppingCart = _context.ShoppingCart.Where(c => c.UserId.Equals(user.UserId))
@@ -109,8 +110,50 @@ namespace bikestoreAPI.Controllers
             {
                 // Update cart timestamp
                 shoppingCart.CartTimeStamp = DateTime.Now;
+
                 // Update cart
                 await PutShoppingCart(shoppingCart.Id, shoppingCart);
+
+                // Check cart if the product already exists in the cart
+                var match = _context.ShoppingCartProduct.Where(cp => cp.ShoppingCartId.Equals(shoppingCart.Id))
+                                                        .Where(p => p.ProductId.Equals(product.Id));
+
+                if (match.FirstOrDefault().ProductId.Equals(product.Id))
+                {
+                    //product.CartQuantity = product.CartQuantity + (int)productMatch.FirstOrDefault().Quantity;
+
+                    // PUT request for product in cart
+                    cartProduct = new ShoppingCartProduct();
+                    cartProduct = match.FirstOrDefault() as ShoppingCartProduct;
+                    //cartProduct.Size = product.Size;
+                    //cartProduct.Color = product.Color;
+                    //cartProduct.UnitPrice = product.Price;
+                    //cartProduct.ShoppingCartId = shoppingCart.Id;
+                    //cartProduct.Id = match.FirstOrDefault().Id;
+                    //cartProduct.ProductId = product.Id;
+                    cartProduct.Quantity = product.CartQuantity + (int)match.FirstOrDefault().Quantity;
+
+                    var updateResult = new ShoppingCartProductsController(_context).PutShoppingCartProduct(cartProduct.Id, cartProduct);
+
+                }
+
+                // Add products
+                //var cartProducts = _context.ShoppingCartProduct.Where(c => c.ShoppingCartId.Equals(shoppingCart.Id));
+                cartProduct = new ShoppingCartProduct();
+                cartProduct.Quantity = product.CartQuantity;
+                cartProduct.Size = product.Size;
+                cartProduct.Color = product.Color;
+                cartProduct.UnitPrice = product.Price;
+                cartProduct.ShoppingCartId = shoppingCart.Id;
+                cartProduct.ProductId = product.Id;
+
+                //var cartProductsController = DependencyResolver.Current.GetService<ShoppingCartProductsController>();
+                //cartProductsController.ControllerContext = new ControllerContext(this.Request.RequestContext, cartProductsController);
+
+                var result = new ShoppingCartProductsController(_context).PostShoppingCartProduct(cartProduct);
+
+                //await ShoppingCartProductsController.PostShoppingCartProduct(cartProduct);
+
                 return NoContent();
             }
             else
@@ -120,6 +163,9 @@ namespace bikestoreAPI.Controllers
                 shoppingCart.CartTimeStamp = DateTime.Now;
                 shoppingCart.OrderPlaced = false;
                 shoppingCart.UserId = user.UserId;
+
+                // Add products
+
             }
 
 
