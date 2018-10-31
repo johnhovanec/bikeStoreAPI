@@ -116,7 +116,7 @@ namespace bikestoreAPI.Controllers
             }
 
             _context.ShoppingCartProduct.Add(shoppingCartProduct);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
             return Ok();
             //return CreatedAtAction("GetShoppingCartProduct", new { id = shoppingCartProduct.Id }, shoppingCartProduct);
         }

@@ -140,16 +140,18 @@ namespace bikestoreAPI.Controllers
                     cartProduct.ProductId = product.Id;
 
                     var result = new ShoppingCartProductsController(_context).PostShoppingCartProduct(cartProduct);
-                    return (IActionResult)result;
-                    
+                    if (result.Exception == null)
+                        return Ok();
+                    else
+                        return NotFound();
                 }
 
-         //var cartProductsController = DependencyResolver.Current.GetService<ShoppingCartProductsController>();
+                //var cartProductsController = DependencyResolver.Current.GetService<ShoppingCartProductsController>();
                 //cartProductsController.ControllerContext = new ControllerContext(this.Request.RequestContext, cartProductsController);
 
                 //await ShoppingCartProductsController.PostShoppingCartProduct(cartProduct);
 
-               // return NoContent();
+                // return NoContent();
             }
             else
             {
