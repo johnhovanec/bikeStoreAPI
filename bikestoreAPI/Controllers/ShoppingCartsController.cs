@@ -48,7 +48,9 @@ namespace bikestoreAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var shoppingCart = await _context.ShoppingCart.SingleOrDefaultAsync(m => m.UserId == id);
+            var shoppingCart = await _context.ShoppingCart.OrderByDescending(c => c.CartTimeStamp)
+                                                          .FirstOrDefaultAsync(m => m.UserId == id);
+                                      
 
             if (shoppingCart == null)
             {
