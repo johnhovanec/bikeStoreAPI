@@ -30,7 +30,6 @@ namespace bikestoreAPI.Controllers
         }
 
         // GET: api/Sessions/5
-        [Route("api/Sessions/")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSession([FromRoute] int id)
         {
@@ -45,29 +44,24 @@ namespace bikestoreAPI.Controllers
             {
                 return NotFound();
             }
-
             return Ok(session);
         }
 
-        // GET: api/Sessions/5
-        [Route("api/Swiss/")]
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserFromSession([FromRoute] string sessionId)
+        [HttpGet("GetSessionUser/{sessionId}")]
+        public async Task<IActionResult> GetSessionUser([FromRoute] string sessionId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            //int userId = await _context.Session.Where(s => s.SessionId == sessionId)
-            //                                    .SingleOrDefaultAsync(s => s.UserId);
+            var session = await _context.Session.FirstOrDefaultAsync(m => m.SessionId == sessionId);
 
-            //if (session == null)
-            //{
-            //    return NotFound();
-            //}
-
-            return Ok();
+            if (session == null)
+            {
+                return NotFound();
+            }
+            return Ok(session);
         }
 
         // PUT: api/Sessions/5
