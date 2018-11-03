@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bikestoreAPI.Models;
 using Microsoft.AspNetCore.Cors;
+using Newtonsoft.Json;
 
 namespace bikestoreAPI.Controllers
 {
@@ -58,6 +58,43 @@ namespace bikestoreAPI.Controllers
             }
 
             return Ok(shoppingCart);
+        }
+
+        // GET: api/ShoppingCarts/Session/5
+        // Retrieve the shopping cart for user by sessionId
+        [HttpGet("~/api/shoppingcarts/Session")]
+        public IEnumerable<CartProduct> GetSessionCart([FromQuery] string sessionId)
+        {
+
+            var session = _context.Session.FirstOrDefault(m => m.SessionId == sessionId);
+            ////if (session == null)
+            ////    return Enumerable.Empty<ShoppingCartProduct>();
+
+            var cart = _context.ShoppingCart.Where(c => c.UserId.Equals(session.UserId))
+                                            .OrderByDescending(c => c.CartTimeStamp)
+                                            .FirstOrDefault();
+            ////if (cart == null)
+            ////    return Enumerable.Empty<ShoppingCartProduct>();
+
+            //var products = _context.ShoppingCartProduct.Where(pr => pr.ShoppingCartId.Equals(cart.Id));
+            var prods =
+                from scp in _context.ShoppingCartProduct
+                join prod in _context.Product on scp.ProductId equals prod.Id
+                where scp.ShoppingCartId == cart.Id
+                select new CartProduct
+                {
+                    Model = prod.Model,
+                    Manufacturer = prod.Manufacturer,
+                    Quantity = scp.Quantity,
+                    InventoryQuantity = prod.InventoryQuantity,
+                    UnitPrice = scp.UnitPrice,
+                    Color = scp.Color,
+                    Size = scp.Size,
+                };
+
+
+
+            return (prods);
         }
 
         // PUT: api/ShoppingCarts/5
@@ -127,7 +164,7 @@ namespace bikestoreAPI.Controllers
                     cartProduct = new ShoppingCartProduct();
                     cartProduct = match.FirstOrDefault() as ShoppingCartProduct;
                     cartProduct.Quantity = product.CartQuantity + (int)match.FirstOrDefault().Quantity;
-                    var actionResult = new ShoppingCartProductsController(_context).PutShoppingCartProduct(cartProduct.Id, cartProduct);
+                    var actionResult = new ShoppingCartProductsController(_context).PutShoppingCartProduct(cartProduct.Id, cartProduct); // Note call to another controller
                     return (IActionResult)actionResult;
                 }
                 else
@@ -228,6 +265,21 @@ namespace bikestoreAPI.Controllers
             public int InventoryQuantity { get; set; }
             public int CartQuantity { get; set; }
             public string SessionId { get; set; }
+        }
+
+        // Model to use for get CartProduct
+        public class CartProduct
+        {
+            public int Id { get; set; }
+            public string Manufacturer { get; set; }
+            public string Model { get; set; }
+            public string Size { get; set; }
+            public string Color { get; set; }
+            public decimal Price { get; set; }
+            public int? InventoryQuantity { get; set; }
+            public int CartQuantity { get; set; }
+            public int? Quantity { get; set; }
+            public decimal? UnitPrice { get; set; }
         }
     }
 }
