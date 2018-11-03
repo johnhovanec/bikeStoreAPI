@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using bikestoreAPI.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace bikestoreAPI.Controllers
 {
+    [EnableCors("AllowMyOrigin")]
     [Produces("application/json")]
     [Route("api/Users")]
     public class UsersController : Controller
@@ -18,21 +20,6 @@ namespace bikestoreAPI.Controllers
         public UsersController(StoreContext context)
         {
             _context = context;
-
-            if (_context.User.Count() == 0)
-            {
-                //_context.User.Add(new User
-                //{
-                //    FName = "Joe Test",
-                //    Address = "1 Main Street",
-                //    User.ACity = "Towson",
-                //    Email = "jt@test.com",
-                //    State = "MD",
-                //    Zip = "21212",
-                //    Phone = "4435551212"
-                //});
-                //_context.SaveChanges();
-            }
         }
 
         // GET: api/Users
@@ -97,6 +84,7 @@ namespace bikestoreAPI.Controllers
         }
 
         // POST: api/Users
+        [EnableCors("AllowMyOrigin")]
         [HttpPost]
         public async Task<IActionResult> PostUser([FromBody] User user)
         {
