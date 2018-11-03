@@ -83,6 +83,7 @@ namespace bikestoreAPI.Controllers
                 where scp.ShoppingCartId == cart.Id
                 select new CartProduct
                 {
+                    Id = scp.Id,
                     Model = prod.Model,
                     Manufacturer = prod.Manufacturer,
                     Quantity = scp.Quantity,
