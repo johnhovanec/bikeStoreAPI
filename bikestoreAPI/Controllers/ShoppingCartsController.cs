@@ -67,16 +67,15 @@ namespace bikestoreAPI.Controllers
         {
 
             var session = _context.Session.FirstOrDefault(m => m.SessionId == sessionId);
-            ////if (session == null)
-            ////    return Enumerable.Empty<ShoppingCartProduct>();
+            if (session == null)
+                return Enumerable.Empty<CartProduct>();
 
             var cart = _context.ShoppingCart.Where(c => c.UserId.Equals(session.UserId))
                                             .OrderByDescending(c => c.CartTimeStamp)
                                             .FirstOrDefault();
-            ////if (cart == null)
-            ////    return Enumerable.Empty<ShoppingCartProduct>();
+            if (cart == null)
+                return Enumerable.Empty<CartProduct>();
 
-            //var products = _context.ShoppingCartProduct.Where(pr => pr.ShoppingCartId.Equals(cart.Id));
             var prods =
                 from scp in _context.ShoppingCartProduct
                 join prod in _context.Product on scp.ProductId equals prod.Id
@@ -92,9 +91,6 @@ namespace bikestoreAPI.Controllers
                     Color = scp.Color,
                     Size = scp.Size,
                 };
-
-
-
             return (prods);
         }
 
