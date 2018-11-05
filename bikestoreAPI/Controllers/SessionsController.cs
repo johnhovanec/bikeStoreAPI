@@ -144,6 +144,29 @@ namespace bikestoreAPI.Controllers
             return NotFound();
         }
 
+        // POST: api/Sessions/sessionId/5
+        [EnableCors("AllowMyOrigin")]
+        [HttpPost("~/api/Sessions/sessionId")]
+        public async Task<IActionResult> PostSessionId([FromBody] Session session)
+        {
+            var sessionDb = new Session();
+            sessionDb.UserSessionType = null;
+            sessionDb.SessionStart = DateTime.Now;
+            sessionDb.SessionId = session.SessionId;
+            sessionDb.UserId = null;
+            sessionDb.SessionExpires = DateTime.Now.AddDays(30);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Session.Add(sessionDb);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetSession", new { id = session.Id }, sessionDb);
+        }
+
         // DELETE: api/Sessions/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSession([FromRoute] int id)
