@@ -83,6 +83,7 @@ namespace bikestoreAPI.Controllers
                 select new CartProduct
                 {
                     Id = scp.Id,
+                    CartId = cart.Id,
                     Model = prod.Model,
                     Manufacturer = prod.Manufacturer,
                     Quantity = scp.Quantity,
@@ -268,6 +269,7 @@ namespace bikestoreAPI.Controllers
         public class CartProduct
         {
             public int Id { get; set; }
+            public int CartId { get; set; }
             public string Manufacturer { get; set; }
             public string Model { get; set; }
             public string Size { get; set; }

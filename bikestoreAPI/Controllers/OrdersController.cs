@@ -83,17 +83,58 @@ namespace bikestoreAPI.Controllers
 
         // POST: api/Orders
         [HttpPost]
-        public async Task<IActionResult> PostOrder([FromBody] Order order)
+        public async Task<IActionResult> PostOrder([FromBody] CartProduct productInCart)
         {
-            if (!ModelState.IsValid)
+            var shoppingCart = await _context.ShoppingCart.FirstOrDefaultAsync(c => c.Id.Equals(productInCart.CartId)) as ShoppingCart;
+
+            // Check cart has not already placed order
+            if (!(bool)shoppingCart.OrderPlaced)
             {
-                return BadRequest(ModelState);
+                // Create a new order
+                var order = new Order();
+                order.TimeStamp = DateTime.Now;
+
+                _context.Order.Add(order);
+                await _context.SaveChangesAsync();
+
+
+
+                // Add Cart products to a new OrderProduct and save
+                foreach (var product in productInCart.cartProducts)
+                {
+                    var orderProduct = new OrderProduct()
+                    {
+                        Id = product.Id,
+                        Quantity = product.Quantity,
+                        Size = product.Size,
+                        Color = product.Color,
+                        UnitPrice = product.UnitPrice,
+                        OrderId = order.Id,
+                        Order = order
+                    };
+
+                    _context.OrderProduct.Add(orderProduct);
+                    await _context.SaveChangesAsync();
+                }
+
+                // Update shoppingCart to show order has been placed
+                if (!shoppingCart.OrderPlaced == true)
+                    return BadRequest();
+
+                shoppingCart.OrderPlaced = true;
+                _context.Entry(shoppingCart).State = EntityState.Modified;
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+
+                return CreatedAtAction("GetOrder", new { id = order.Id }, order);
             }
-
-            _context.Order.Add(order);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
+            return NotFound();
         }
 
         // DELETE: api/Orders/5
@@ -120,6 +161,29 @@ namespace bikestoreAPI.Controllers
         private bool OrderExists(int id)
         {
             return _context.Order.Any(e => e.Id == id);
+        }
+
+        public class CartProduct
+        {
+            public int CartId { get; set; }
+            public string FName { get; set; }
+            public string MName { get; set; }
+            public string LName { get; set; }
+            public string Email { get; set; }
+            public string Address1 { get; set; }
+            public string Address2 { get; set; }
+            public string Country { get; set; }
+            public string State { get; set; }
+            public string ShippingSameAsBilling { get; set; }
+            public string CardType { get; set; }
+            public string NameOnCard { get; set; }
+            public string CardNumber { get; set; }
+            public string CardExpiration { get; set; }
+            public string CardCVV { get; set; }
+            public string SourceCode { get; set; }
+            public List<ShoppingCartProduct> cartProducts { get; set; }
+            public string cartTotal { get; set; }
+            public string sessionId { get; set; }
         }
     }
 }
