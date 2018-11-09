@@ -86,6 +86,8 @@ namespace bikestoreAPI.Controllers
         public async Task<IActionResult> PostOrder([FromBody] CartProduct productInCart)
         {
             var shoppingCart = await _context.ShoppingCart.FirstOrDefaultAsync(c => c.Id.Equals(productInCart.CartId)) as ShoppingCart;
+            if (shoppingCart.OrderPlaced == true)
+                return BadRequest();
 
             // Check cart has not already placed order
             if (!(bool)shoppingCart.OrderPlaced)
@@ -134,9 +136,6 @@ namespace bikestoreAPI.Controllers
                 }
 
                 // Update shoppingCart to show order has been placed
-                if (!shoppingCart.OrderPlaced == true)
-                    return BadRequest();
-
                 shoppingCart.OrderPlaced = true;
                 _context.Entry(shoppingCart).State = EntityState.Modified;
                 try

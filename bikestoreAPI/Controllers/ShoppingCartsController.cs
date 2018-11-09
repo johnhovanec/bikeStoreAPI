@@ -71,6 +71,7 @@ namespace bikestoreAPI.Controllers
                 return Enumerable.Empty<CartProduct>();
 
             var cart = _context.ShoppingCart.Where(c => c.UserId.Equals(session.UserId))
+                                            .Where(c => !(bool)c.OrderPlaced)
                                             .OrderByDescending(c => c.CartTimeStamp)
                                             .FirstOrDefault();
             if (cart == null)
@@ -140,6 +141,7 @@ namespace bikestoreAPI.Controllers
             var user = _context.Session.Where(s => s.SessionId.Equals(product.SessionId)).FirstOrDefault();
 
             var shoppingCart = _context.ShoppingCart.Where(c => c.UserId.Equals(user.UserId))
+                                                    .Where(c => !(bool)c.OrderPlaced)
                                                     .OrderByDescending(c => c.CartTimeStamp)
                                                     .FirstOrDefault() as ShoppingCart;
 
