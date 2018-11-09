@@ -93,24 +93,40 @@ namespace bikestoreAPI.Controllers
                 // Create a new order
                 var order = new Order();
                 order.TimeStamp = DateTime.Now;
+                order.Tax = productInCart.cartTotal != string.Empty ? decimal.Parse(productInCart.cartTotal) * 0.06m :  0.0m;
+                order.SourceCode = productInCart.SourceCode != string.Empty ? productInCart.SourceCode : string.Empty;
+                order.ShippingAddressId = -1;
+                order.UserId = _context.Session.Where(s => s.SessionId.Equals(productInCart.sessionId))
+                                       .Select(s => s.UserId)
+                                       .FirstOrDefault();
+                order.ShippingCost = _context.ShippingMethod
+                                             .Where(x => x.Description.Contains("FedEx"))
+                                             .Select(x => x.Rate)
+                                             .FirstOrDefault();
+                order.ShoppingCartId = productInCart.CartId;
 
+                decimal.TryParse(productInCart.cartTotal, out decimal subtotal);
+                order.Subtotal = subtotal;
+                order.Total = order.Subtotal + order.Tax + order.ShippingCost;
+                
                 _context.Order.Add(order);
                 await _context.SaveChangesAsync();
-
-
 
                 // Add Cart products to a new OrderProduct and save
                 foreach (var product in productInCart.cartProducts)
                 {
                     var orderProduct = new OrderProduct()
                     {
-                        Id = product.Id,
+                        ProductId = _context.ShoppingCartProduct
+                                            .Where(x => x.Id == product.Id)
+                                            .Select(x => x.ProductId)
+                                            .FirstOrDefault(),
+
                         Quantity = product.Quantity,
                         Size = product.Size,
                         Color = product.Color,
                         UnitPrice = product.UnitPrice,
                         OrderId = order.Id,
-                        Order = order
                     };
 
                     _context.OrderProduct.Add(orderProduct);
