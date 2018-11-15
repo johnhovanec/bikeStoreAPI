@@ -25,8 +25,7 @@ namespace bikestoreAPI.Controllers
             {
                 _context.ShoppingCart.Add(new ShoppingCart
                 {
-                    //CustomerId = 1,
-                    //CartTimeStamp = System.DateTime.Now,
+
                 });
                 _context.SaveChanges();
             }
@@ -184,13 +183,6 @@ namespace bikestoreAPI.Controllers
                     else
                         return NotFound();
                 }
-
-                //var cartProductsController = DependencyResolver.Current.GetService<ShoppingCartProductsController>();
-                //cartProductsController.ControllerContext = new ControllerContext(this.Request.RequestContext, cartProductsController);
-
-                //await ShoppingCartProductsController.PostShoppingCartProduct(cartProduct);
-
-                // return NoContent();
             }
             else
             {

@@ -60,41 +60,7 @@ namespace bikestoreAPI.Controllers
                 };
 
             return (prods);
-            //var orderSummary = (from op in _context.OrderProduct
-            //                     join p in _context.Product on op.ProductId equals p.Id
-            //                     where op.OrderId == id
-            //                     select new OrderSummary()
-            //                     {
-            //                         Tax = order.Tax,
-            //                         SourceCode = order.SourceCode,
-            //                         ShippingAddressId = order.ShippingAddressId,
-            //                         ShippingCost = order.ShippingCost,
-            //                         Subtotal = order.Subtotal,
-            //                         Total = order.Total,
-            //                     }).ToList();
-
-            //if (order == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //// Retrieve all products for the order
-            //var orderProducts = _context.OrderProduct.Where(p => p.OrderId == id);
-
-            //// Map results to new object
-            //var orderSummary = new OrderSummary()
-            //{
-            //    TimeStamp = order.TimeStamp,
-            //    Tax = order.Tax,
-            //    SourceCode = order.SourceCode,
-            //    ShippingAddressId = order.ShippingAddressId,
-            //    ShippingCost = order.ShippingCost,
-            //    Subtotal = order.Subtotal,
-            //    Total = order.Total,
-
-            //}
-
-            //return Ok(order);
+ 
         }
 
         // PUT: api/Orders/5
